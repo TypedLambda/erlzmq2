@@ -1,10 +1,14 @@
-LINUX=$(shell uname | grep Linux | wc -l | xargs echo)
 DEPS=../deps
 
-ifeq ($(LINUX),1)
-ZMQ_FLAGS=--with-pic
+ifeq ($(OS),Windows_NT)
 else
-ZMQ_FLAGS=
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+ZMQ_FLAGS=--with-pic
+endif
+ifeq ($(UNAME_S),FreeBSD)
+ZMQ_FLAGS=--with-pic
+endif
 endif
 
 ifndef ZEROMQ_VERSION
